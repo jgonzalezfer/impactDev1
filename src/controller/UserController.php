@@ -37,8 +37,16 @@ class UserController {
         // ...
     }
 
-    public function deleteUser($userId) {
-        // Implementa la lógica para eliminar un usuario de la base de datos
-        // ...
+    public function eliminarUsuario($id) {
+        try {
+            // Lógica para eliminar al usuario por ID
+            $this->db->eliminarUsuario($id);
+    
+            // Redirigir a la página de usuarios después de la eliminación
+            header('Location: home.php');
+            exit();
+        } catch (PDOException $e) {
+            die("Error al eliminar usuario: " . $e->getMessage());
+        }
     }
 }

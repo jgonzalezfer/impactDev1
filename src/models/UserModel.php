@@ -20,6 +20,8 @@ class UserModel
         $this->db = new Database($dbConfig['host'], $dbConfig['dbname'], $dbConfig['username'], $dbConfig['password']);
     }
 
+
+
     // Obtener un usuario por su correo electrónico
     public function getUserByEmail($email)
     {
@@ -44,6 +46,18 @@ class UserModel
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             die("Error de consulta: " . $e->getMessage());
+        }
+    }
+
+    // Eliminar un usuario por su ID
+    public function eliminarUsuario($id)
+    {
+        try {
+            $query = $this->db->getConnection()->prepare("DELETE FROM usuarios WHERE id = :id");
+            $query->bindParam(':id', $id);
+            $query->execute();
+        } catch (PDOException $e) {
+            throw new Exception("Error al eliminar usuario: " . $e->getMessage());
         }
     }
 }
