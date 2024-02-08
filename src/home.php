@@ -14,7 +14,6 @@
   <div class="container mt-5">
     <h2 class="mb-4">CRUD de Usuarios</h2>
 
-    <!-- Tabla para mostrar los usuarios -->
     <table class="table">
       <thead>
         <tr>
@@ -35,7 +34,6 @@
         $userModel = new UserModel();
 
         try {
-          // Obtener todos los usuarios (modifica según tu necesidad)
           $users = $userModel->getAllUsers();
 
           foreach ($users as $user) {
@@ -59,7 +57,7 @@
       </tbody>
     </table>
 
-    <a href="#" class="btn btn-success">Agregar Nuevo Usuario</a>
+    <a href="crear_usuario.php" class="btn btn-success">Agregar Nuevo Usuario</a>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

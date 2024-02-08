@@ -9,7 +9,6 @@ class UserModel
 
     public function __construct()
     {
-        // Configura la conexión a la base de datos
         $dbConfig = [
             'host' => 'localhost',
             'dbname' => 'impactdev',
@@ -19,8 +18,6 @@ class UserModel
 
         $this->db = new Database($dbConfig['host'], $dbConfig['dbname'], $dbConfig['username'], $dbConfig['password']);
     }
-
-
 
     // Obtener un usuario por su correo electrónico
     public function getUserByEmail($email)
@@ -75,9 +72,9 @@ class UserModel
     }
 
     // Actualizar un usuario por su ID
-    public function updateUser($userId, $userData) {
+    public function updateUser($userId, $userData)
+    {
         try {
-            // Construct the SQL query to update user details
             $query = "UPDATE usuarios SET 
                       nombre = :nombre,
                       apellido_paterno = :apellido_paterno,
@@ -87,10 +84,8 @@ class UserModel
                       contrasena = :contrasena
                       WHERE id = :id";
 
-            // Prepare the query
             $statement = $this->db->getConnection()->prepare($query);
 
-            // Bind parameters
             $statement->bindParam(':nombre', $userData['nombre']);
             $statement->bindParam(':apellido_paterno', $userData['apellido_paterno']);
             $statement->bindParam(':apellido_materno', $userData['apellido_materno']);
@@ -99,11 +94,61 @@ class UserModel
             $statement->bindParam(':contrasena', $userData['contrasena']);
             $statement->bindParam(':id', $userId);
 
-            // Execute the query
             $statement->execute();
 
         } catch (PDOException $e) {
             throw new Exception("Error al actualizar usuario: " . $e->getMessage());
+        }
+    }
+
+    // Crear un nuevo usuario
+    public function createUser($data)
+    {
+        try {
+            $this->validateUserData($data);
+
+            $hashedPassword = $this->hashPassword($data['contrasena']);
+
+            $query = $this->db->getConnection()->prepare("
+                   INSERT INTO usuarios (nombre, apellido_paterno, apellido_materno, correo, telefono, contrasena)
+                   VALUES (:nombre, :apellido_paterno, :apellido_materno, :correo, :telefono, :contrasena)
+               ");
+
+            $query->bindParam(':nombre', $data['nombre']);
+            $query->bindParam(':apellido_paterno', $data['apellido_paterno']);
+            $query->bindParam(':apellido_materno', $data['apellido_materno']);
+            $query->bindParam(':correo', $data['correo']);
+            $query->bindParam(':telefono', $data['telefono']);
+            $query->bindParam(':contrasena', $hashedPassword);
+
+            $query->execute();
+
+            echo '<div class="alert alert-success" role="alert"> Usuario creado exitosamente</div>';
+            echo '<a href="home.php" class="btn btn-primary">Ir al Home</a>';
+
+            echo '<script>setTimeout(function(){ window.location.href = "home.php"; }, 9000);</script>';
+
+
+        } catch (PDOException $e) {
+            throw new Exception("Error al crear usuario: " . $e->getMessage());
+        }
+    }
+
+    // Hash de contraseñas
+    public function hashPassword($password)
+    {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    // Validar datos del usuario
+    private function validateUserData($data)
+    {
+        $requiredFields = ['nombre', 'apellido_paterno', 'apellido_materno', 'correo', 'telefono', 'contrasena'];
+
+        foreach ($requiredFields as $field) {
+            if (empty($data[$field])) {
+                throw new Exception("Todos los campos son obligatorios.");
+            }
         }
     }
 }

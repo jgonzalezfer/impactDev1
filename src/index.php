@@ -3,25 +3,19 @@
 require_once 'config/database.php';
 require_once 'controller/AuthController.php';
 
-// Verifica si se envió el formulario de inicio de sesión
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
-    // Obtén las credenciales del formulario
+
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Crea una instancia del controlador de autenticación
     $authController = new AuthController();
 
-    // Intenta autenticar al usuario
     $result = $authController->authenticate($email, $password);
 
-    // Verifica el resultado de la autenticación
     if ($result['success']) {
-        // Inicio de sesión exitoso, redirige a la página principal o realiza otras acciones necesarias
         header('Location: home.php');
         exit;
     } else {
-        // Error en la autenticación, muestra un mensaje de error
         $error = $result['message'];
     }
 }
