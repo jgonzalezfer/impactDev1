@@ -48,9 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container mt-5">
         <h2 class="mb-4">Crear Usuario</h2>
 
-        <!-- Formulario para crear un nuevo usuario -->
         <form method="post" action="crear_usuario.php">
-            <!-- Campos del formulario -->
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre:</label>
                 <input type="text" name="nombre" class="form-control" required>

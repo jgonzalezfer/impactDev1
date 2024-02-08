@@ -13,10 +13,7 @@ class UserController
     public function eliminarUsuario($id)
     {
         try {
-            // Lógica para eliminar al usuario por ID
             $this->db->eliminarUsuario($id);
-
-            // Redirigir a la página de usuarios después de la eliminación
             header('Location: home.php');
             exit();
         } catch (PDOException $e) {
@@ -24,13 +21,10 @@ class UserController
         }
     }
 
-
-    
     // Obtener detalles del usuario por ID
     public function getUserDetails($id)
     {
         try {
-            // Logic to fetch user details from the UserModel
             return $this->db->getUserDetails($id);
         } catch (PDOException $e) {
             throw new Exception("Error al obtener detalles del usuario: " . $e->getMessage());
@@ -41,7 +35,6 @@ class UserController
     public function updateUser($id, $userData)
     {
         try {
-            // Logic to update user details in the UserModel
             $this->db->updateUser($id, $userData);
         } catch (PDOException $e) {
             throw new Exception("Error al actualizar usuario: " . $e->getMessage());
@@ -64,18 +57,17 @@ class UserController
 
             // Ruta completa de la carpeta
             $folderPath = __DIR__ . '/../api/' . $folderName;
-    
-        // Verificar si la carpeta ya existe
-        if (!is_dir($folderPath)) {
-            
-            // Si no existe, intentar crearla
-            if (!mkdir($folderPath, 0777, true)) {
-                // Manejar el error si no se puede crear la carpeta
-                return ["error" => "Error al crear la carpeta para el usuario."];
-            }
-            $this->addApiFiles($folderPath);
 
-        }
+            // Verificar si la carpeta ya existe
+            if (!is_dir($folderPath)) {
+
+                // Si no existe, intentar crearla
+                if (!mkdir($folderPath, 0777, true)) {
+                    return ["error" => "Error al crear la carpeta para el usuario."];
+                }
+                $this->addApiFiles($folderPath);
+
+            }
 
         } catch (Exception $e) {
             die("Error al crear usuario: " . $e->getMessage());
@@ -93,25 +85,25 @@ class UserController
         return $folderName;
     }
     private function addApiFiles($folderPath)
-{
-    // Archivos específicos de la API
-    $apiFiles = ['CrearUsuarioApi.php', 'LeerUsuarioApi.php', 'ActualizarUsuarioApi.php', 'EliminarUsuarioApi.php', 'ConfiguracionUsuario.php'];
+    {
+        // Archivos específicos de la API
+        $apiFiles = ['CrearUsuarioApi.php', 'LeerUsuarioApi.php', 'ActualizarUsuarioApi.php', 'EliminarUsuarioApi.php', 'ConfiguracionUsuario.php'];
 
-    // Copiar o crear cada archivo en la carpeta del usuario
-    foreach ($apiFiles as $apiFile) {
-        $sourceFile = __DIR__ . '/../plantillas/' . $apiFile; // Ruta del archivo fuente (puedes cambiarlo según tus necesidades)
-        $destinationFile = $folderPath . '/' . $apiFile;
+        // Copiar o crear cada archivo en la carpeta del usuario
+        foreach ($apiFiles as $apiFile) {
+            $sourceFile = __DIR__ . '/../plantillas/' . $apiFile;
+            $destinationFile = $folderPath . '/' . $apiFile;
 
-        // Verificar si el archivo fuente existe
-        if (file_exists($sourceFile)) {
-            // Copiar el archivo en la carpeta del usuario
-            copy($sourceFile, $destinationFile);
-        } else {
-            // Crear el archivo si no existe el archivo fuente (puedes personalizar según tus necesidades)
-            file_put_contents($destinationFile, "<?php\n// Contenido del archivo {$apiFile}\n?>");
+            // Verificar si el archivo fuente existe
+            if (file_exists($sourceFile)) {
+                // Copiar el archivo en la carpeta del usuario
+                copy($sourceFile, $destinationFile);
+            } else {
+                // Crear el archivo si no existe el archivo fuente (puedes personalizar según tus necesidades)
+                file_put_contents($destinationFile, "<?php\n// Contenido del archivo {$apiFile}\n?>");
+            }
         }
     }
-}
 
 
 }

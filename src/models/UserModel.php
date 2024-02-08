@@ -165,9 +165,9 @@ class UserModel
             throw new Exception("Error al verificar el correo: " . $e->getMessage());
         }
     }
-
-    public function getUsuarioCarpetaURL($nombre, $apellido_paterno) {
-        // Limpiar caracteres especiales
+    // Limpiar caracteres especiales
+    public function getUsuarioCarpetaURL($nombre, $apellido_paterno)
+    {
         $nombre_limpio = $this->quitar_tildes($nombre);
         $apellido_limpio = str_replace('ñ', 'n', $this->quitar_tildes($apellido_paterno));
 
@@ -176,7 +176,8 @@ class UserModel
     }
 
     // Función para quitar tildes de los caracteres
-    private function quitar_tildes($cadena) {
+    private function quitar_tildes($cadena)
+    {
         $tildes = ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'];
         $sin_tildes = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
         return str_replace($tildes, $sin_tildes, $cadena);
