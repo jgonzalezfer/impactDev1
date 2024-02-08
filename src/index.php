@@ -1,7 +1,7 @@
 <?php
 // Incluye los archivos necesarios
-require_once 'config/database.php';
-require_once 'controller/AuthController.php';
+require_once './config/database.php';
+require_once './controller/AuthController.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
 

@@ -47,6 +47,8 @@
                         <td>
                         <a href="editar_usuario.php?id='. $user['id'] . '" class="btn btn-warning btn-sm" onclick="return confirm(\'¿Estás seguro de que deseas Editar este usuario?\')" >Editar</a>
                         <a href="eliminar_usuario.php?id='. $user['id'] . '" class="btn btn-danger btn-sm" onclick="return confirm(\'¿Estás seguro de que deseas eliminar este usuario?\')">Eliminar</a>
+                        <a href="' . $userModel->getUsuarioCarpetaURL($user['nombre'], $user['apellido_paterno']) . '" class="btn btn-info btn-sm">Carpeta</a>
+
                           </td>
                       </tr>';
           }

@@ -24,6 +24,8 @@ class UserController
         }
     }
 
+
+    
     // Obtener detalles del usuario por ID
     public function getUserDetails($id)
     {
@@ -65,6 +67,7 @@ class UserController
     
         // Verificar si la carpeta ya existe
         if (!is_dir($folderPath)) {
+            
             // Si no existe, intentar crearla
             if (!mkdir($folderPath, 0777, true)) {
                 // Manejar el error si no se puede crear la carpeta

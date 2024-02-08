@@ -28,13 +28,14 @@ Este es un proyecto backend que implementa un CRUD de usuarios y un sistema de l
 
 ## Notas Importantes
 *Base de dato: Impactdev
+User: admin@gmail.com	
+Pass: admin
+-------
 Tabla: 
 1.-Nombre, apellido paterno y apellido materno.
 2.-Correo electrónico (identificador único).
 3.-Número de teléfono.
 4.-PassWord
 ----
-*Dev  API PHP 
-Crear Login y Registro user(correo) and pass
-Index.php
+
 
