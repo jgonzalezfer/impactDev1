@@ -60,9 +60,9 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             </div>
 
             <div class="mb-3">
-                <label for="telefono" class="form-label">Teléfono:</label>
-                <input type="text" name="telefono" class="form-control" value="<?php echo $userDetails['telefono']; ?>"
-                    >
+                <label for="telefono" class="form-label">Teléfono: +56 9 </label>
+                <input type="tel" name="telefono" class="form-control" placeholder="9 8299 6030" pattern="[9]{1}[0-9]{8}" value="<?php echo $userDetails['telefono']; ?>">
+                    
             </div>
 
             <div class="mb-3">

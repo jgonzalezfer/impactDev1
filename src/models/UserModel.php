@@ -151,6 +151,19 @@ class UserModel
             }
         }
     }
+    // Verificar si el correo ya existe en la base de datos
+    public function correoExistente($correo)
+    {
+        try {
+            $query = $this->db->getConnection()->prepare("SELECT COUNT(*) FROM usuarios WHERE correo = :correo");
+            $query->bindParam(':correo', $correo);
+            $query->execute();
+
+            return $query->fetchColumn() > 0;
+        } catch (PDOException $e) {
+            throw new Exception("Error al verificar el correo: " . $e->getMessage());
+        }
+    }
 }
 
 ?>

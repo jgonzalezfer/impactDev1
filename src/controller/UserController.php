@@ -13,8 +13,10 @@ class UserController
     public function eliminarUsuario($id)
     {
         try {
+            // Lógica para eliminar al usuario por ID
             $this->db->eliminarUsuario($id);
 
+            // Redirigir a la página de usuarios después de la eliminación
             header('Location: home.php');
             exit();
         } catch (PDOException $e) {
@@ -26,6 +28,7 @@ class UserController
     public function getUserDetails($id)
     {
         try {
+            // Logic to fetch user details from the UserModel
             return $this->db->getUserDetails($id);
         } catch (PDOException $e) {
             throw new Exception("Error al obtener detalles del usuario: " . $e->getMessage());
@@ -36,12 +39,12 @@ class UserController
     public function updateUser($id, $userData)
     {
         try {
+            // Logic to update user details in the UserModel
             $this->db->updateUser($id, $userData);
         } catch (PDOException $e) {
             throw new Exception("Error al actualizar usuario: " . $e->getMessage());
         }
     }
-
     // Crear un nuevo usuario
     public function createUser($data)
     {

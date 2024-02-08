@@ -1,11 +1,15 @@
 <?php
+// Incluir archivos necesarios
 require_once './controller/UserController.php';
 require_once './models/UserModel.php';
+require_once './utils/Validator.php';
 
 // Inicializar el controlador y el modelo
 $userController = new UserController(new UserModel());
 
+// Verificar si se ha enviado el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Obtener los datos del formulario
     $userData = [
         'nombre' => $_POST['nombre'],
         'apellido_paterno' => $_POST['apellido_paterno'],
@@ -13,15 +17,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'correo' => $_POST['correo'],
         'telefono' => $_POST['telefono'],
         'contrasena' => $_POST['contrasena']
+        // Agrega más campos según sea necesario
     ];
 
-    $result = $userController->createUser($userData);
+    // Validar si el correo ya existe
+    $validador = new Validador();
+    $resultValidacion = $validador->validarCorreoExistente($userData['correo']);
 
-    if (isset($result['success'])) {
-        echo '<div class="alert alert-success" role="alert">' . $result['success'] . '</div>';
+    // Verificar el resultado de la validación
+    if (isset($resultValidacion['error'])) {
+        // Mostrar el mensaje de error y detener la creación del usuario
+        echo '<div class="alert alert-danger" role="alert">' . $resultValidacion['error'] . '</div>';
+    } else {
+        // Continuar con la creación del usuario
+        // Llamar al método createUser del controlador
+        $result = $userController->createUser($userData);
 
-    } elseif (isset($result['error'])) {
-        echo '<div class="alert alert-danger" role="alert">' . $result['error'] . '</div>';
+        // Verificar el resultado y mostrar mensajes adecuados
+        if (isset($result['success'])) {
+            echo '<div class="alert alert-success" role="alert">' . $result['success'] . '</div>';
+            echo '<a href="home.php" class="btn btn-primary">Ir al Home</a>'; // Agregar este enlace
+        } elseif (isset($result['error'])) {
+            echo '<div class="alert alert-danger" role="alert">' . $result['error'] . '</div>';
+        }
     }
 }
 ?>
@@ -57,8 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" name="apellido_materno" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="telefono" class="form-label">Teléfono:</label>
-                <input type="text" name="telefono" class="form-control" required>
+                <label for="telefono" class="form-label">Teléfono: +56 9</label>
+                <input type="text" name="telefono" class="form-control" placeholder="9 8299 6030"
+                    pattern="[9]{1}[0-9]{8}" required>
             </div>
             <div class="mb-3">
                 <label for="correo" class="form-label">Correo:</label>
