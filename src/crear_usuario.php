@@ -1,15 +1,11 @@
 <?php
-// Incluir archivos necesarios
 require_once './controller/UserController.php';
 require_once './models/UserModel.php';
 require_once './utils/Validator.php';
 
-// Inicializar el controlador y el modelo
 $userController = new UserController(new UserModel());
 
-// Verificar si se ha enviado el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Obtener los datos del formulario
     $userData = [
         'nombre' => $_POST['nombre'],
         'apellido_paterno' => $_POST['apellido_paterno'],
@@ -17,26 +13,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'correo' => $_POST['correo'],
         'telefono' => $_POST['telefono'],
         'contrasena' => $_POST['contrasena']
-        // Agrega más campos según sea necesario
     ];
 
-    // Validar si el correo ya existe
     $validador = new Validador();
     $resultValidacion = $validador->validarCorreoExistente($userData['correo']);
 
-    // Verificar el resultado de la validación
     if (isset($resultValidacion['error'])) {
-        // Mostrar el mensaje de error y detener la creación del usuario
         echo '<div class="alert alert-danger" role="alert">' . $resultValidacion['error'] . '</div>';
     } else {
-        // Continuar con la creación del usuario
-        // Llamar al método createUser del controlador
         $result = $userController->createUser($userData);
 
-        // Verificar el resultado y mostrar mensajes adecuados
         if (isset($result['success'])) {
             echo '<div class="alert alert-success" role="alert">' . $result['success'] . '</div>';
-            echo '<a href="home.php" class="btn btn-primary">Ir al Home</a>'; // Agregar este enlace
+            echo '<a href="home.php" class="btn btn-primary">Ir al Home</a>';
         } elseif (isset($result['error'])) {
             echo '<div class="alert alert-danger" role="alert">' . $result['error'] . '</div>';
         }
