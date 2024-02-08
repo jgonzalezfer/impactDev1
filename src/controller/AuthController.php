@@ -19,10 +19,8 @@ class AuthController {
             return ['success' => false, 'message' => 'Usuario no encontrado.'];
         }
 
-        
-    
-        // Verificar la contraseña sin usar password_verify()
-        if ($user['contrasena'] === $password) {
+        // Verificar la contraseña utilizando password_verify()
+        if (password_verify($password, $user['contrasena'])) {
             // La contraseña es válida, el inicio de sesión es exitoso
             // Puedes realizar otras acciones aquí, como establecer variables de sesión, etc.
             return ['success' => true, 'message' => 'Inicio de sesión exitoso.'];
@@ -30,8 +28,6 @@ class AuthController {
             // La contraseña no coincide
             return ['success' => false, 'message' => 'Contraseña incorrecta.'];
         }
-
-
     }
 }
 

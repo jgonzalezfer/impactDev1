@@ -29,8 +29,8 @@
       </thead>
       <tbody>
         <?php
-        require_once 'config/database.php';
-        require_once 'models/UserModel.php';
+        require_once './config/database.php';
+        require_once './models/UserModel.php';
 
         $userModel = new UserModel();
 
@@ -47,8 +47,8 @@
                         <td>' . $user['rol'] . '</td>
                         <td>' . $user['telefono'] . '</td>
                         <td>
-                          <a href="#" class="btn btn-warning btn-sm">Editar</a>
-                          <a href="eliminar_usuario.php?id='. $user['id'] . '" class="btn btn-danger btn-sm" onclick="return confirm(\'¿Estás seguro de que deseas eliminar este usuario?\')">Eliminar</a>
+                        <a href="editar_usuario.php?id='. $user['id'] . '" class="btn btn-warning btn-sm" onclick="return confirm(\'¿Estás seguro de que deseas Editar este usuario?\')" >Editar</a>
+                        <a href="eliminar_usuario.php?id='. $user['id'] . '" class="btn btn-danger btn-sm" onclick="return confirm(\'¿Estás seguro de que deseas eliminar este usuario?\')">Eliminar</a>
                           </td>
                       </tr>';
           }
